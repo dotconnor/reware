@@ -14,6 +14,11 @@
     "prepare": "yarn build"
   },
   "types": "lib",
+  "files": [
+    "lib/*",
+    "readme.md",
+    "LICENSE"
+  ],
   "dependencies": {
     "@sindresorhus/is": "^0.16.0",
     "glob": "^7.1.4"
