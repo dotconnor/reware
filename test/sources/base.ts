@@ -1,6 +1,6 @@
 import test from "ava"
 import is from "@sindresorhus/is"
-import { BaseSource } from "./base"
+import { BaseSource } from "../../src/sources/base"
 
 test(`Source should Error is not initialized.`, (t) => {
   const source = new BaseSource()

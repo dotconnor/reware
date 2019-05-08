@@ -1,6 +1,6 @@
 import test from "ava"
 
-import reware from "./reware"
+import reware from "../src/reware"
 
 test(`reware() should return a function`, (t) => {
   t.is(typeof reware(), `function`)
