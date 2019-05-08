@@ -33,6 +33,7 @@
     ]
   },
   "dependencies": {
-    "@sindresorhus/is": "^0.16.0"
+    "@sindresorhus/is": "^0.16.0",
+    "glob": "^7.1.4"
   }
 }

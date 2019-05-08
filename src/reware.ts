@@ -2,15 +2,17 @@ import { Router } from "express"
 // eslint-disable-next-line no-unused-vars
 import { Options } from "./types"
 
-const DEFAILT_OPTIONS: Options = {
+export const DEFAULT_OPTIONS: Options = {
   exactPathMatch: false,
+  pathMatchFileTypes: [`jpg`, `jpeg`, `gif`, `png`, `webp`],
 }
 
 const reware = (options?: Options): Router => {
   const app = Router()
-  options = { ...DEFAILT_OPTIONS, ...options }
+  options = { ...DEFAULT_OPTIONS, ...options }
   return app
 }
 
 export default reware
 module.exports = reware
+module.exports.DEFAULT_OPTIONS = DEFAULT_OPTIONS

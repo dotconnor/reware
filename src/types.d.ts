@@ -4,4 +4,5 @@ export type Middleware = (req: Request, res: Response) => any
 
 export interface Options {
   exactPathMatch?: boolean
+  pathMatchFileTypes?: string[]
 }

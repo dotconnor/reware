@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
-    "target": "es2015",
+    "target": "es2017",
     "module": "commonjs",
-    //"declaration": true,
+    "declaration": true,
     "outDir": "lib",
     "rootDir": "src",
     "incremental": true,
@@ -13,6 +13,7 @@
     "esModuleInterop": true
   },
   "exclude": [
-    "**/*.test.ts"
+    "test/**",
+    "lib/**"
   ]
 }
