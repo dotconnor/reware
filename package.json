@@ -3,6 +3,10 @@
   "version": "1.0.1",
   "main": "lib/index.js",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/a1motion/reware"
+  },
   "scripts": {
     "build": "tsc",
     "test": "ava --verbose",
