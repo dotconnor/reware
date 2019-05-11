@@ -5,9 +5,10 @@ export interface QueryOptions {
   height?: number
   type?: `jpg` | `png` | `webp`
   fit?: `cover` | `contain` | `fill` | `inside` | `outside`
+  quality?: number
 }
 
-type OptionTypes = `width` | `height` | `type` | `fit`
+type OptionTypes = `width` | `height` | `type` | `fit` | `quality`
 
 class OptionsError extends Error {
   type: OptionTypes
@@ -56,6 +57,17 @@ export function parseQuery(key: string, query: any): QueryOptions {
       throw new OptionsError(`Failed to parse query options.`, `height`)
     }
     obj.height = height
+  }
+  if (query.quality) {
+    let { quality } = query
+    quality = Number.parseInt(quality, 10)
+    if (Number.isNaN(quality)) {
+      throw new OptionsError(`Failed to parse query options.`, `quality`)
+    }
+    if (quality <= 0 || quality > 100) {
+      throw new OptionsError(`Failed to parse query options.`, `quality`)
+    }
+    obj.quality = quality
   }
   return obj
 }

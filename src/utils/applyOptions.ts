@@ -15,13 +15,17 @@ export async function applyOptions(
   if (opts.type) {
     switch (opts.type) {
       case `webp`:
-        img = img.webp()
+        img = img.webp({
+          quality: opts.quality,
+        })
         break
       case `png`:
         img = img.png()
         break
       case `jpg`:
-        img = img.jpeg()
+        img = img.jpeg({
+          quality: opts.quality,
+        })
         break
       default:
     }
