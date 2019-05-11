@@ -1,15 +1,21 @@
 // eslint-disable-next-line no-unused-vars
 import { Options } from "../types"
 
+export interface SourceOptions {
+  exactPathMatch?: boolean
+  pathMatchFileTypes?: string[]
+}
+export const DEFAULT_SOURCE_OPTIONS = {
+  exactPathMatch: false,
+  pathMatchFileTypes: [`jpg`, `jpeg`, `gif`, `png`, `webp`],
+}
 export class BaseSource {
-  internal_options: Options | null = null
-  get(key: string): Promise<Buffer> {
-    if (this.internal_options === null) {
-      throw new Error(`Source not initialized.`)
-    }
-    return Promise.resolve(Buffer.alloc(0))
+  options: SourceOptions
+  constructor(options: SourceOptions) {
+    this.options = { ...DEFAULT_SOURCE_OPTIONS, ...options }
   }
-  _init(options: Options) {
-    this.internal_options = options
+  // eslint-disable-next-line no-unused-vars
+  get(key: string, req?: Express.Request): Promise<Buffer> {
+    return Promise.resolve(Buffer.alloc(0))
   }
 }

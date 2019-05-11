@@ -1,10 +1,11 @@
 import { promises as fs } from "fs"
 import { join } from "path"
 import glob from "glob"
-import { BaseSource } from "./base"
+// eslint-disable-next-line no-unused-vars
+import { BaseSource, SourceOptions } from "./base"
 import { escapeGlob } from "../utils/escapeGlob"
 
-interface FileSystemSourceOptions {
+interface FileSystemSourceOptions extends SourceOptions {
   basePath: string
 }
 function globAsync(key: string, options: glob.IOptions) {
@@ -26,27 +27,25 @@ export class FileNotFoundError extends Error {
   }
 }
 export class FileSystemSource extends BaseSource {
-  options: FileSystemSourceOptions
+  fsoptions: FileSystemSourceOptions
   constructor(options: FileSystemSourceOptions) {
-    super()
+    super(options)
     if (!options) {
       throw new Error(`FileSystemSource requires a options parameter.`)
     }
-    this.options = options
+    this.fsoptions = options
   }
-  async get(key: string): Promise<Buffer> {
+  // eslint-disable-next-line no-unused-vars
+  async get(key: string, req?: Express.Request): Promise<Buffer> {
     key = escapeGlob(key)
-    if (
-      this.internal_options !== null &&
-      !this.internal_options.exactPathMatch
-    ) {
-      key = `${key}.@(${this.internal_options.pathMatchFileTypes!.join(`,`)})`
+    if (this.options !== null && !this.options.exactPathMatch) {
+      key = `${key}.@(${this.options.pathMatchFileTypes!.join(`,`)})`
     }
-    const matches = await globAsync(key, { cwd: this.options.basePath })
+    const matches = await globAsync(key, { cwd: this.fsoptions.basePath })
     if (matches.length === 0) {
       throw new FileNotFoundError(`File not found on File System`, key)
     }
-    const file = await fs.readFile(join(this.options.basePath, matches[0]))
+    const file = await fs.readFile(join(this.fsoptions.basePath, matches[0]))
     return file
   }
 }
