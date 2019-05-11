@@ -10,7 +10,9 @@
     "importHelpers": true,
     "strict": true,
     "moduleResolution": "node",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
   },
   "exclude": [
     "test/**",

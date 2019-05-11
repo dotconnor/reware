@@ -1,1 +1,2 @@
-export interface Options {}
+
+declare module `png-js`;
