@@ -1,4 +1,5 @@
 import sharp from "sharp"
+// eslint-disable-next-line no-unused-vars
 import { QueryOptions } from "./parseOptions"
 
 export async function applyOptions(
