@@ -49,6 +49,9 @@
   "peerDependencies": {
     "express": "^4.16.4"
   },
+  "optionalDependencies": {
+    "aws-sdk": "^2.453.0"
+  },
   "ava": {
     "compileEnhancements": false,
     "extensions": [
