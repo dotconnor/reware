@@ -12,7 +12,7 @@
     "test": "ava --verbose",
     "lint": "eslint '**/*.ts'",
     "prepublishOnly": "yarn build",
-    "release": "np"
+    "release": "np --no-release-draft"
   },
   "types": "lib",
   "files": [
