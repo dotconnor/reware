@@ -1,4 +1,5 @@
 export interface SourceOptions {
+  exactPathMatch?: boolean
   pathMatchFileTypes?: string[]
 }
 export const DEFAULT_SOURCE_OPTIONS = {
