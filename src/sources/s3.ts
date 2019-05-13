@@ -98,6 +98,7 @@ export class S3Source extends BaseSource {
     this.matchCache.set(key, matches[0].Key)
     return matches[0].Key
   }
+  // eslint-disable-next-line no-unused-vars
   async get(key: string, req?: Express.Request) {
     const match = await this.matchCacheGetOrSet(key)
     if (!match) {
