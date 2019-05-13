@@ -31,7 +31,10 @@ const reware = (options?: RewareOptions): Router => {
       }
       const opts = parseQuery(key, req.query)
       image = await applyOptions(image, opts)
-      return res.send(image).end()
+      return res
+        .set(`Content-Type`, checkImageType(image)!.mime)
+        .send(image)
+        .end()
     } catch (e) {
       if (_options.passThroughError) {
         return next(e)

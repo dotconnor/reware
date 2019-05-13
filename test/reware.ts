@@ -103,3 +103,21 @@ test(`should resize image to 512 with only height`, async (t) => {
   t.is(png.width, 512)
   t.is(png.height, 512)
 })
+
+test(`should set correct content-type header - png`, async (t) => {
+  t.plan(1)
+  const app = makeApp()
+  const res = await request(app)
+    .get(`/logo.png`)
+    .send()
+  t.is(res.header[`content-type`], `image/png`)
+})
+
+test(`should set correct content-type header - webp`, async (t) => {
+  t.plan(1)
+  const app = makeApp()
+  const res = await request(app)
+    .get(`/logo.webp`)
+    .send()
+  t.is(res.header[`content-type`], `image/webp`)
+})
