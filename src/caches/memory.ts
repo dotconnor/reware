@@ -11,10 +11,10 @@ export class MemoryCache extends BaseCache {
     })
   }
 
-  get(key: string) {
+  get(key: string, req?: Express.Request) {
     return this.cache.get(key)
   }
-  set(key: string, image: Buffer) {
+  set(key: string, image: Buffer, req?: Express.Request) {
     this.cache.set(key, image)
   }
 }

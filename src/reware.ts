@@ -35,7 +35,7 @@ const reware = (options?: RewareOptions): Router => {
       const opts = parseQuery(key, req.query)
       const cache_key = getCacheKey(parseKey(key), opts)
       for (const cache of _options.caches || []) {
-        const cached = cache.get(cache_key)
+        const cached = cache.get(cache_key, req)
         if (cached) {
           return done(cached)
         }
@@ -51,7 +51,7 @@ const reware = (options?: RewareOptions): Router => {
       // eslint-disable-next-line require-atomic-updates
       image = await applyOptions(image, opts)
       _options.caches!.forEach((cache) => {
-        cache.set(cache_key, image)
+        cache.set(cache_key, image, req)
       })
       return done(image)
     } catch (e) {
