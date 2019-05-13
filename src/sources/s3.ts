@@ -1,4 +1,5 @@
 import { S3, SharedIniFileCredentials } from "aws-sdk"
+import LRUCache from "lru-cache"
 // eslint-disable-next-line no-unused-vars
 import { BaseSource, SourceOptions, FileNotFoundError } from "./base"
 
@@ -71,6 +72,7 @@ function getObjectAsync(
 export class S3Source extends BaseSource {
   s3options: S3SourceOptions
   client: S3
+  matchCache: LRUCache<string, string>
   constructor(options: S3SourceOptions) {
     super(options)
     if (!options) {
@@ -78,18 +80,32 @@ export class S3Source extends BaseSource {
     }
     this.s3options = { ...DEFAULT_OPTIONS, ...options }
     this.client = new S3(getS3Options(this.s3options))
+    this.matchCache = new LRUCache({
+      max: 250,
+    })
   }
-  async get(key: string, req?: Express.Request) {
+  async matchCacheGetOrSet(key: string): Promise<string | undefined> {
+    if (this.matchCache.has(key)) {
+      return this.matchCache.get(key)
+    }
     const { Contents: matches } = await listObjectsAsync(this.client, {
       Bucket: this.s3options.bucket,
       Prefix: key,
     })
-    if (!matches || matches.length === 0) {
+    if (!matches || matches.length === 0 || !matches[0].Key) {
+      return undefined
+    }
+    this.matchCache.set(key, matches[0].Key)
+    return matches[0].Key
+  }
+  async get(key: string, req?: Express.Request) {
+    const match = await this.matchCacheGetOrSet(key)
+    if (!match) {
       throw new FileNotFoundError(`File not found on S3`, key)
     }
     const file = await getObjectAsync(this.client, {
       Bucket: this.s3options.bucket,
-      Key: matches[0].Key!,
+      Key: match,
     })
     return file.Body as Buffer
   }
