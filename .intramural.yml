@@ -5,6 +5,7 @@ node:
   - 12
 
 steps:
+  - echo "Hello!"
   - yarn
   - yarn lint
   - yarn test
