@@ -3,7 +3,7 @@ import is from "@sindresorhus/is"
 import { S3Source } from "../../src/sources/s3"
 
 const testFunction = () => {
-  return typeof process.env.JENKINS_NODE_COOKIE === `undefined`
+  return typeof process.env.CI === `undefined`
     ? test
     : test.skip
 }
