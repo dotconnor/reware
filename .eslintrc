@@ -1,15 +1,12 @@
 {
-  "extends": [
-    "a1motion"
-  ],
-  "parser": "@typescript-eslint/parser",
+  "extends": "a1motion/typescript",
   "parserOptions": {
-    "ecmaVersion": 2018,
-    "sourceType": "module"
+    "project": "./tsconfig.json",
+    "createDefaultProgram": true
   },
-  "settings": {
-    "react": {
-      "version": "999"
-    }
+  "rules": {
+    "require-atomic-updates": 0,
+    "@typescript-eslint/explicit-function-return-type": 0,
+    "@typescript-eslint/member-delimiter-style": 0
   }
 }
