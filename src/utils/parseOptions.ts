@@ -1,73 +1,84 @@
-import { parse } from "path"
+import { parse } from "path";
 
 export interface QueryOptions {
-  width?: number
-  height?: number
-  type?: `jpg` | `png` | `webp`
-  fit?: `cover` | `contain` | `fill` | `inside` | `outside`
-  quality?: number
+  width?: number;
+  height?: number;
+  type?: `jpg` | `png` | `webp`;
+  fit?: `cover` | `contain` | `fill` | `inside` | `outside`;
+  quality?: number;
 }
 
-type OptionTypes = `width` | `height` | `type` | `fit` | `quality`
+type OptionTypes = `width` | `height` | `type` | `fit` | `quality`;
 
 class OptionsError extends Error {
-  type: OptionTypes
+  type: OptionTypes;
   constructor(message: string, type: OptionTypes) {
-    super(message)
-    this.type = type
+    super(message);
+    this.type = type;
   }
 }
 
-const imageExts = new Set([`jpg`, `png`, `webp`])
-const fitTypes = new Set([`cover`, `contain`, `fill`, `inside`, `outside`])
-const getExt = /(?:\.([^.]+))?$/
+const imageExts = new Set([`jpg`, `png`, `webp`]);
+const fitTypes = new Set([`cover`, `contain`, `fill`, `inside`, `outside`]);
+const getExt = /(?:\.([^.]+))?$/;
 
 export function parseKey(key: string) {
-  const parsedKey = parse(key)
-  return parsedKey.name
+  const parsedKey = parse(key);
+  return parsedKey.name;
 }
 
 export function parseQuery(key: string, query: any): QueryOptions {
-  const obj: QueryOptions = {}
-  const ext = getExt.exec(key)
+  const obj: QueryOptions = {};
+  const ext = getExt.exec(key);
   if (ext !== null && ext[1]) {
     if (!imageExts.has(ext[1])) {
-      throw new OptionsError(`Failed to parse query options.`, `type`)
+      throw new OptionsError(`Failed to parse query options.`, `type`);
     }
-    obj.type = ext[1] as `jpg` | `png` | `webp`
+
+    obj.type = ext[1] as `jpg` | `png` | `webp`;
   }
+
   if (query.fit) {
     if (!fitTypes.has(query.fit)) {
-      throw new OptionsError(`Failed to parse query options.`, `fit`)
+      throw new OptionsError(`Failed to parse query options.`, `fit`);
     }
-    obj.type = query.fit
+
+    obj.type = query.fit;
   }
+
   if (query.width) {
-    let { width } = query
-    width = Number.parseInt(width, 10)
+    let { width } = query;
+    width = Number.parseInt(width, 10);
     if (Number.isNaN(width)) {
-      throw new OptionsError(`Failed to parse query options.`, `width`)
+      throw new OptionsError(`Failed to parse query options.`, `width`);
     }
-    obj.width = width
+
+    obj.width = width;
   }
+
   if (query.height) {
-    let { height } = query
-    height = Number.parseInt(height, 10)
+    let { height } = query;
+    height = Number.parseInt(height, 10);
     if (Number.isNaN(height)) {
-      throw new OptionsError(`Failed to parse query options.`, `height`)
+      throw new OptionsError(`Failed to parse query options.`, `height`);
     }
-    obj.height = height
+
+    obj.height = height;
   }
+
   if (query.quality) {
-    let { quality } = query
-    quality = Number.parseInt(quality, 10)
+    let { quality } = query;
+    quality = Number.parseInt(quality, 10);
     if (Number.isNaN(quality)) {
-      throw new OptionsError(`Failed to parse query options.`, `quality`)
+      throw new OptionsError(`Failed to parse query options.`, `quality`);
     }
+
     if (quality <= 0 || quality > 100) {
-      throw new OptionsError(`Failed to parse query options.`, `quality`)
+      throw new OptionsError(`Failed to parse query options.`, `quality`);
     }
-    obj.quality = quality
+
+    obj.quality = quality;
   }
-  return obj
+
+  return obj;
 }

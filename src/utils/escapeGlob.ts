@@ -9,5 +9,5 @@ export function escapeGlob(glob: string): string {
     .replace(/\}/g, `\\}`)
     .replace(/\)/g, `\\)`)
     .replace(/\(/g, `\\(`)
-    .replace(/!/g, `\\!`)
+    .replace(/!/g, `\\!`);
 }
