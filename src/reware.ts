@@ -4,7 +4,6 @@ import { FileNotFoundError } from "./sources/base";
 import { checkImageType } from "./utils/checkImageType";
 import { parseQuery, parseKey } from "./utils/parseOptions";
 import { applyOptions } from "./utils/applyOptions";
-// eslint-disable-next-line no-unused-vars
 import { BaseCache } from "./caches/base";
 import { MemoryCache } from "./caches/memory";
 import { getCacheKey } from "./utils/getCacheKey";
