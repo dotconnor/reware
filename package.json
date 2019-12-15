@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsc",
     "test": "ava --verbose",
-    "lint": "eslint '**/*.ts'",
+    "lint": "eslint --format=pretty '**/*.ts'",
     "prepublishOnly": "yarn build",
     "release": "np --no-release-draft"
   },

@@ -1,22 +1,21 @@
-import test from "ava"
-import express from "express"
-import request from "supertest"
-
-import reware from "../src/reware"
-import { FileSystemSource } from "../src/sources/fs"
-import { join } from "path"
-import { MemoryCache } from "../src/caches/memory"
+import test from "ava";
+import express from "express";
+import request from "supertest";
+import reware from "../src/reware";
+import { FileSystemSource } from "../src/sources/fs";
+import { join } from "path";
+import { MemoryCache } from "../src/caches/memory";
 
 test(`app should set to cache`, async (t) => {
-  t.plan(1)
-  let hitCache = false
+  t.plan(1);
+  let hitCache = false;
   class Cache extends MemoryCache {
     set(key: string, image: Buffer) {
-      hitCache = true
-      return super.set(key, image)
+      hitCache = true;
+      return super.set(key, image);
     }
   }
-  const app = express()
+  const app = express();
   app.use(
     reware({
       caches: [new Cache()],
@@ -24,23 +23,23 @@ test(`app should set to cache`, async (t) => {
         basePath: join(__dirname, `fixtures`),
       }),
     })
-  )
+  );
   await request(app)
     .get(`/logo`)
-    .send()
-  t.true(hitCache)
-})
+    .send();
+  t.true(hitCache);
+});
 
 test(`app should read from cache`, async (t) => {
-  t.plan(3)
-  let cached
+  t.plan(3);
+  let cached;
   class Cache extends MemoryCache {
     get(key: string) {
-      cached = super.get(key)
-      return cached
+      cached = super.get(key);
+      return cached;
     }
   }
-  const app = express()
+  const app = express();
   app.use(
     reware({
       caches: [new Cache()],
@@ -48,14 +47,14 @@ test(`app should read from cache`, async (t) => {
         basePath: join(__dirname, `fixtures`),
       }),
     })
-  )
-  t.falsy(cached)
+  );
+  t.falsy(cached);
   await request(app)
     .get(`/logo`)
-    .send()
-  t.falsy(cached)
+    .send();
+  t.falsy(cached);
   await request(app)
     .get(`/logo`)
-    .send()
-  t.truthy(cached)
-})
+    .send();
+  t.truthy(cached);
+});
